@@ -1,17 +1,28 @@
 import streamlit as st
 import helper
-import pickle
+import numpy as np
+from joblib import load
 
+# Dummy data to demonstrate the conversion
+# Replace this with your actual data loading logic
+node_array = np.array([1, 2, 3], dtype=np.float64)
 
-import pickle
-from sklearn.exceptions import NotFittedError
+# Convert the data types to the expected data types
+node_array = node_array.astype(
+    {
+        "left child": np.int64,
+        "rights child": np.int64,
+        "feature": np.int64,
+        "threshold": np.float64,
+        "impurity": np.float64,
+        "n_node_samples": np.int64,
+        "weighted_n_node_samples": np.float64,
+    }
+)
 
-try:
-    with open("model.pkl", "rb") as file:
-        model = pickle.load(file)
-except (ValueError, NotFittedError) as e:
-    print(f"Error loading the model: {e}")
-    # Handle the error as needed
+# Load the joblib model
+model = load("model.joblib")
+
 st.header("Duplicate Question Pairs")
 
 q1 = st.text_input("Enter question 1")
